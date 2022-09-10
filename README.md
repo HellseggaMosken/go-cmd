@@ -61,7 +61,7 @@ func main() {
 			if b, isSet := ctx.Short("b"); isSet {
 				// just like converting value above, you can safely convert flag here
 				v := b.(string)
-				fmt.Println("b is set, its value is: %v", v)
+				fmt.Println("b is set, its value is:", v)
 			} else {
 				fmt.Println("b is not set")
 			}
