@@ -1,4 +1,4 @@
-module gocmd
+module github.com/HellseggaMosken/go-cmd
 
 go 1.19
 

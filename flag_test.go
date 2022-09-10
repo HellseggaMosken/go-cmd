@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"gocmd"
+	gocmd "github.com/HellseggaMosken/go-cmd"
 )
 
 func TestParseFlagNoParse(t *testing.T) {
