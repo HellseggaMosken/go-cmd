@@ -1,21 +1,10 @@
-# go-cmd
+package main
 
-A golang package that makes you write command line applications easily.
+import (
+	"fmt"
 
-# Installation
-```shell
-go get github.com/HellseggaMosken/go-cmd
-```
-
-
-# Examples
-
-You can get the example code in `example/main.go` .
-
-```go
-...
-...
-import gocmd "github.com/HellseggaMosken/go-cmd"
+	gocmd "github.com/HellseggaMosken/go-cmd"
+)
 
 func main() {
 	// create a command
@@ -104,57 +93,3 @@ var subCommand = gocmd.New(
 	"sub",
 	"A sub command.",
 )
-
-```
-
-Build the example code to a binary named `example-app`.
-
-By default, the package will add a `--help` / `-h` flag service to your app, so you can run:
-
-```shell
-example-app --help
-```
-
-and you will get the results:
-
-```
-example-app
-  An example command line app.
-
-  -h/--help             Print help message for command 'example-app'.
-  -a/--aflag            This is bool flag.
-  -b/--bflag <arg>      This is value flag.
-  -c/--cflag <arg ...>  This is multi-value flag.
-  -s/--start <arg ...>  Start this service. You can give a value as your   
-                        start arg.The usage may be vary long, but the      
-                        package will wrap lines properly when outputing    
-                        help message.
-
-  sub
-    A sub command.
-
-    -h/--help  Print help message for command 'sub'.
-```
-
-you can see the help message is formatted properly.
-
-Also, you can show help message for `sub` command:
-
-```shell
-example-app sub --help
-```
-
-and the results is:
-
-```
-sub
-  A sub command.
-
-  -h/--help  Print help message for command 'sub'.
-```
-
-Because the package will add "help" as a command's default service, and here we don't supply a service for `sub` command, so you can also show `sub` command's help message by:
-
-```
-example-app sub
-```
