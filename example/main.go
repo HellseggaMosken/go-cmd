@@ -34,7 +34,7 @@ func main() {
 		gocmd.FlagTypeMulti,
 		"s",
 		"start",
-		"Start this service. You can give a value as your start arg."+
+		"Start this service. You can give a value as your start arg. "+
 			"The usage may be vary long, but the package will wrap lines properly "+
 			"when outputing help message.",
 		// this is the flag's service that will be called when the flag is set
