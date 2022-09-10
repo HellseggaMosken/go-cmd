@@ -1,4 +1,4 @@
-package gocmd
+package cmd
 
 import "os"
 

@@ -1,17 +1,17 @@
-package gocmd_test
+package cmd_test
 
 import (
 	"reflect"
 	"strings"
 	"testing"
 
-	gocmd "github.com/HellseggaMosken/go-cmd"
+	cmd "github.com/HellseggaMosken/go-cmd"
 )
 
 func TestParseFlagNoParse(t *testing.T) {
-	flags := []*gocmd.Flag{}
+	flags := []*cmd.Flag{}
 	args := []string{"a"}
-	r, u, e := gocmd.ParseFlags(args, flags)
+	r, u, e := cmd.ParseFlags(args, flags)
 	if e != nil {
 		t.Error(e)
 	}
@@ -24,20 +24,20 @@ func TestParseFlagNoParse(t *testing.T) {
 }
 
 func TestParseFlagLongAndShort(t *testing.T) {
-	flags := []*gocmd.Flag{
+	flags := []*cmd.Flag{
 		{
 			Long:  "long",
 			Short: "l",
-			Type:  gocmd.FlagTypeBool,
+			Type:  cmd.FlagTypeBool,
 		},
 		{
 			Long:  "short",
 			Short: "s",
-			Type:  gocmd.FlagTypeBool,
+			Type:  cmd.FlagTypeBool,
 		},
 	}
 	args := []string{"--long", "-s"}
-	_, _, _ = gocmd.ParseFlags(args, flags)
+	_, _, _ = cmd.ParseFlags(args, flags)
 	if !flags[0].IsSet() {
 		t.Error("long flag is not set")
 	}
@@ -47,9 +47,9 @@ func TestParseFlagLongAndShort(t *testing.T) {
 }
 
 func TestParseFlagUnknownAndRemaining(t *testing.T) {
-	flags := []*gocmd.Flag{}
+	flags := []*cmd.Flag{}
 	args := []string{"-b", "--c", "-", "--", "foo"}
-	r, u, e := gocmd.ParseFlags(args, flags)
+	r, u, e := cmd.ParseFlags(args, flags)
 	if e != nil {
 		t.Error(e)
 	}
@@ -62,15 +62,15 @@ func TestParseFlagUnknownAndRemaining(t *testing.T) {
 }
 
 func TestParseFlagBool(t *testing.T) {
-	flags := []*gocmd.Flag{
+	flags := []*cmd.Flag{
 		{
 			Long:  "bool",
 			Short: "b",
-			Type:  gocmd.FlagTypeBool,
+			Type:  cmd.FlagTypeBool,
 		},
 	}
 	args := []string{"-b"}
-	_, _, e := gocmd.ParseFlags(args, flags)
+	_, _, e := cmd.ParseFlags(args, flags)
 	if e != nil {
 		t.Error(e)
 	}
@@ -82,14 +82,14 @@ func TestParseFlagBool(t *testing.T) {
 }
 
 func TestParseFlagValue(t *testing.T) {
-	flags := []*gocmd.Flag{
+	flags := []*cmd.Flag{
 		{
 			Long:  "value",
 			Short: "v",
-			Type:  gocmd.FlagTypeValue,
+			Type:  cmd.FlagTypeValue,
 		},
 	}
-	_, _, e := gocmd.ParseFlags([]string{"-v", "value1"}, flags)
+	_, _, e := cmd.ParseFlags([]string{"-v", "value1"}, flags)
 	if e != nil {
 		t.Error(e)
 	}
@@ -100,25 +100,25 @@ func TestParseFlagValue(t *testing.T) {
 	} else if v != "value1" {
 		t.Error("flag value is wrong, v:", v)
 	}
-	_, _, e = gocmd.ParseFlags([]string{"-v"}, flags)
+	_, _, e = cmd.ParseFlags([]string{"-v"}, flags)
 	if e == nil {
 		t.Error("should return error")
 	}
-	_, _, e = gocmd.ParseFlags([]string{"-v", "-v2", "foo"}, flags)
+	_, _, e = cmd.ParseFlags([]string{"-v", "-v2", "foo"}, flags)
 	if e == nil {
 		t.Error("should return error")
 	}
 }
 
 func TestParseFlagMulti(t *testing.T) {
-	flags := []*gocmd.Flag{
+	flags := []*cmd.Flag{
 		{
 			Long:  "multi",
 			Short: "m",
-			Type:  gocmd.FlagTypeMulti,
+			Type:  cmd.FlagTypeMulti,
 		},
 	}
-	_, _, e := gocmd.ParseFlags([]string{"-m", "value1", "value2"}, flags)
+	_, _, e := cmd.ParseFlags([]string{"-m", "value1", "value2"}, flags)
 	if e != nil {
 		t.Error(e)
 	}
@@ -129,67 +129,67 @@ func TestParseFlagMulti(t *testing.T) {
 	} else if !reflect.DeepEqual(v, []string{"value1", "value2"}) {
 		t.Error("flag value is wrong, v:", v)
 	}
-	_, _, e = gocmd.ParseFlags([]string{"-m"}, flags)
+	_, _, e = cmd.ParseFlags([]string{"-m"}, flags)
 	if e == nil {
 		t.Error("should return error")
 	}
-	_, _, e = gocmd.ParseFlags([]string{"-m", "--m2", "foo"}, flags)
+	_, _, e = cmd.ParseFlags([]string{"-m", "--m2", "foo"}, flags)
 	if e == nil {
 		t.Error("should return error")
 	}
 }
 
 func TestParseFlagFull(t *testing.T) {
-	flags := []*gocmd.Flag{
+	flags := []*cmd.Flag{
 		{
 			Long:  "bool1",
 			Short: "b1",
-			Type:  gocmd.FlagTypeBool,
+			Type:  cmd.FlagTypeBool,
 		},
 		{
 			Long:  "bool2",
 			Short: "b2",
-			Type:  gocmd.FlagTypeBool,
+			Type:  cmd.FlagTypeBool,
 		},
 		{
 			Long:  "bool3",
 			Short: "b3",
-			Type:  gocmd.FlagTypeBool,
+			Type:  cmd.FlagTypeBool,
 		},
 		{
 			Long:  "value1",
 			Short: "v1",
-			Type:  gocmd.FlagTypeValue,
+			Type:  cmd.FlagTypeValue,
 		},
 		{
 			Long:  "value2",
 			Short: "v2",
-			Type:  gocmd.FlagTypeValue,
+			Type:  cmd.FlagTypeValue,
 		},
 		{
 			Long:  "value3",
 			Short: "v3",
-			Type:  gocmd.FlagTypeValue,
+			Type:  cmd.FlagTypeValue,
 		},
 		{
 			Long:  "multi1",
 			Short: "m1",
-			Type:  gocmd.FlagTypeMulti,
+			Type:  cmd.FlagTypeMulti,
 		},
 		{
 			Long:  "multi2",
 			Short: "m2",
-			Type:  gocmd.FlagTypeMulti,
+			Type:  cmd.FlagTypeMulti,
 		},
 		{
 			Long:  "multi3",
 			Short: "m3",
-			Type:  gocmd.FlagTypeMulti,
+			Type:  cmd.FlagTypeMulti,
 		},
 	}
 	raw := "-b1 -v1 foo1 -u1 --bool2 -m1 foo2 foo3 foo4 --value2 foo5 --multi2 foo6 --u2 r1 r2"
 	args := strings.Split(raw, " ")
-	r, u, e := gocmd.ParseFlags(args, flags)
+	r, u, e := cmd.ParseFlags(args, flags)
 	if e != nil {
 		t.Error(e)
 	}
