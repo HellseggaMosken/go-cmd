@@ -6,7 +6,7 @@ type Context struct {
 	flags []*Flag
 }
 
-func newContex(flags []*Flag) *Context {
+func newContext(flags []*Flag) *Context {
 	return &Context{flags: flags}
 }
 
@@ -25,7 +25,7 @@ func (c *Context) Short(name string) (v any, ok bool) {
 // If found, return `flag.Value()`, or return (nil, false)
 func (c *Context) Long(name string) (v any, ok bool) {
 	for i := range c.flags {
-		if c.flags[i].Short == name {
+		if c.flags[i].Long == name {
 			return c.flags[i].Value()
 		}
 	}

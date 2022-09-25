@@ -80,7 +80,7 @@ func (c *Command) Run(args []string) error {
 
 	for _, f := range c.flags {
 		if f.IsSet() && f.FlagService != nil {
-			return f.FlagService(newContex(flags), f.value)
+			return f.FlagService(newContext(flags), f.value)
 		}
 	}
 
@@ -95,7 +95,7 @@ func (c *Command) Run(args []string) error {
 	}
 
 	if c.service != nil {
-		return c.service(newContex(flags))
+		return c.service(newContext(flags))
 	}
 
 	return fmt.Errorf("no defined operation for '%v'", c.name)
